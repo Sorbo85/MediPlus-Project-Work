@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: MediPlus API
+  version: 1.0.0
+  description: API didattica per la gestione di appuntamenti sanitari con dati dimostrativi.
+servers:
+  - url: http://127.0.0.1:5000
+paths:
+  /api/health:
+    get:
+      summary: Verifica stato API
+      responses:
+        '200':
+          description: Servizio disponibile
+  /api/dashboard:
+    get:
+      summary: Indicatori dashboard
+      responses:
+        '200':
+          description: Conteggi appuntamenti e medici
+  /api/doctors:
+    get:
+      summary: Elenco medici
+      responses:
+        '200':
+          description: Lista medici
+  /api/patients:
+    get:
+      summary: Elenco pazienti dimostrativi
+      responses:
+        '200':
+          description: Lista pazienti
+  /api/appointments:
+    get:
+      summary: Elenco appuntamenti
+      parameters:
+        - in: query
+          name: status
+          schema: {type: string, enum: [Prenotata, Confermata, Completata, Annullata]}
+        - in: query
+          name: q
+          schema: {type: string}
+          description: Cerca nel nome paziente, medico o motivo
+      responses:
+        '200':
+          description: Lista appuntamenti
+    post:
+      summary: Crea appuntamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewAppointment'
+      responses:
+        '201': {description: Prenotazione creata}
+        '400': {description: Dati non validi}
+        '404': {description: Paziente o medico non trovato}
+        '409': {description: Conflitto orario medico}
+  /api/appointments/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: {type: integer}
+    patch:
+      summary: Aggiorna stato appuntamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status:
+                  type: string
+                  enum: [Prenotata, Confermata, Completata, Annullata]
+      responses:
+        '200': {description: Stato aggiornato}
+        '400': {description: Stato non valido}
+        '404': {description: Appuntamento non trovato}
+    delete:
+      summary: Elimina appuntamento
+      responses:
+        '200': {description: Appuntamento eliminato}
+        '404': {description: Appuntamento non trovato}
+components:
+  schemas:
+    NewAppointment:
+      type: object
+      required: [patient_id, doctor_id, appointment_date, reason]
+      properties:
+        patient_id: {type: integer, example: 1}
+        doctor_id: {type: integer, example: 2}
+        appointment_date: {type: string, format: date-time, example: '2027-01-15T10:30'}
+        reason: {type: string, minLength: 3, example: Visita dermatologica}

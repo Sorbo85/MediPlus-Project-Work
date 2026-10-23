@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MediPlus | Gestione visite</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-icon">✚</span><span>MediPlus<small>HEALTHCARE</small></span></div>
+    <div class="nav-label">MENU PRINCIPALE</div>
+    <button class="nav active" data-view="dashboard"><span>▦</span> Panoramica</button>
+    <button class="nav" data-view="appointments"><span>▣</span> Appuntamenti</button>
+    <button class="nav" data-view="doctors"><span>♙</span> Medici</button>
+    <div class="sidebar-bottom"><div class="avatar">MP</div><div><b>Centro Medico Demo</b><small>Area amministrativa</small></div></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><span class="eyebrow">GESTIONE SANITARIA</span><h1 id="page-title">Panoramica</h1></div><div class="top-right"><span class="status-dot"></span> Sistema operativo <div class="avatar small">MP</div></div></header>
+    <section id="dashboard-view" class="view">
+      <div class="welcome"><div><p class="eyebrow light">IL TUO CENTRO MEDICO, IN UN SOLO POSTO</p><h2>Buongiorno 👋</h2><p>Monitora le visite e organizza il lavoro del centro.</p></div><div class="welcome-art">✚</div></div>
+      <div class="stats">
+        <article class="stat-card"><div class="stat-icon purple">▣</div><span>Totale appuntamenti</span><strong id="stat-total">—</strong><small>Visite registrate</small></article>
+        <article class="stat-card"><div class="stat-icon green">◷</div><span>Prossime visite</span><strong id="stat-upcoming">—</strong><small>Da svolgere</small></article>
+        <article class="stat-card"><div class="stat-icon blue">✓</div><span>Visite confermate</span><strong id="stat-confirmed">—</strong><small>Stato confermato</small></article>
+        <article class="stat-card"><div class="stat-icon orange">♙</div><span>Medici</span><strong id="stat-doctors">—</strong><small>Nel centro medico</small></article>
+      </div>
+      <div class="section-head"><div><h2>Prossimi appuntamenti</h2><p>Una panoramica delle visite in programma</p></div><button class="primary" id="new-from-dashboard">＋ Nuovo appuntamento</button></div>
+      <div class="panel"><div class="table-wrap"><table><thead><tr><th>PAZIENTE</th><th>MEDICO</th><th>DATA E ORA</th><th>MOTIVO</th><th>STATO</th></tr></thead><tbody id="recent-rows"></tbody></table></div></div>
+    </section>
+    <section id="appointments-view" class="view hidden">
+      <div class="section-head"><div><h2>Tutti gli appuntamenti</h2><p>Gestisci prenotazioni e stato delle visite</p></div><button class="primary" id="new-appointment">＋ Nuovo appuntamento</button></div>
+      <div class="filters"><input id="search" placeholder="Cerca paziente, medico o motivo…"><select id="status-filter"><option>Tutte</option><option>Prenotata</option><option>Confermata</option><option>Completata</option><option>Annullata</option></select></div>
+      <div class="panel"><div class="table-wrap"><table><thead><tr><th>PAZIENTE</th><th>MEDICO</th><th>DATA E ORA</th><th>MOTIVO</th><th>STATO</th><th>AZIONI</th></tr></thead><tbody id="appointment-rows"></tbody></table></div></div>
+    </section>
+    <section id="doctors-view" class="view hidden">
+      <div class="section-head"><div><h2>Équipe medica</h2><p>Professionisti disponibili nel centro</p></div></div>
+      <div id="doctor-cards" class="doctor-grid"></div>
+    </section>
+    <footer>© 2026 MediPlus · Prototipo didattico · Dati dimostrativi, non usare per dati sanitari reali</footer>
+  </main>
+  <div id="modal" class="modal hidden"><div class="modal-card"><button id="close-modal" class="close" aria-label="Chiudi">×</button><p class="eyebrow">NUOVA PRENOTAZIONE</p><h2>Programma una visita</h2><p class="muted">Compila i dati per registrare l'appuntamento.</p>
+    <form id="appointment-form">
+      <label>Paziente<select id="patient-id" required></select></label>
+      <label>Medico<select id="doctor-id" required></select></label>
+      <label>Data e ora<input id="appointment-date" type="datetime-local" required></label>
+      <label>Motivo della visita<input id="reason" maxlength="160" placeholder="Es. visita di controllo" required></label>
+      <p id="form-error" class="form-error"></p><button class="primary full" type="submit">Conferma prenotazione</button>
+    </form>
+  </div></div>
+  <div id="toast" class="toast hidden"></div>
+  <script src="/app.js"></script>
+</body></html>
